@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_113919) do
+ActiveRecord::Schema.define(version: 2021_01_06_122716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "favs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "shoe_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shoe_id"], name: "index_favs_on_shoe_id"
+    t.index ["user_id"], name: "index_favs_on_user_id"
+  end
 
   create_table "shoes", force: :cascade do |t|
     t.string "name"
@@ -32,4 +41,6 @@ ActiveRecord::Schema.define(version: 2021_01_06_113919) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "favs", "shoes"
+  add_foreign_key "favs", "users"
 end

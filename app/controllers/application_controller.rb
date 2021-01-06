@@ -20,19 +20,15 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def session_user
-    decoded_hash = decoded_token
-    if !decoded_hash.empty? 
-        puts decoded_hash.class
-        user_id = decoded_hash[0]['user_id']
-        @user = User.find_by(id: user_id)
-    else
-        nil 
-    end
+  def logged_in_user
+    return unless decoded_token
+
+    user_id = decoded_token[0]['user_id']
+    @user = User.find_by(id: user_id)
   end
 
   def logged_in?
-    !!session_user
+    !!logged_in_user
   end
 
   def require_login
