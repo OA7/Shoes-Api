@@ -7,7 +7,9 @@ class FavsController < ApplicationController
       fav_shoe.destroy
       render json: { status: 'Favs Destroyed succesfully' }
     else
+      # rubocop:disable  Lint/UselessAssignment
       fav_shoe = Fav.create!(user_id: logged_in_user.id, shoe_id: params[:shoe_id])
+      # rubocop:enable Lint/UselessAssignment
       render json: { status: 'Favourite Created succesfully' }
     end
   end
@@ -17,6 +19,5 @@ class FavsController < ApplicationController
     render json: {
       user_shoes: @user_shoes
     }
-    puts "User Shoes #{@user_shoes}"
   end
 end
