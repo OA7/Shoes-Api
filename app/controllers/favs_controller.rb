@@ -1,5 +1,6 @@
 class FavsController < ApplicationController
   def fav_create
+    puts "User is #{logged_in_user.username}"
     fav_shoe = Fav.find_by(user_id: logged_in_user.id, shoe_id: params[:shoe_id])
 
     if fav_shoe
@@ -16,5 +17,6 @@ class FavsController < ApplicationController
     render json: {
       user_shoes: @user_shoes
     }
+    puts "User Shoes #{@user_shoes}"
   end
 end

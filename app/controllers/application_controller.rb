@@ -1,22 +1,24 @@
 class ApplicationController < ActionController::API
-  before_action :require_login
+  before_action :authorized
 
   def encode_token(payload)
-    JWT.encode(payload, 'my_secret')
+    JWT.encode(payload, 's3cr3t')
   end
 
   def auth_header
+    # {Authorization: 'Bearer <token>'}
     request.headers['Authorization']
   end
 
   def decoded_token
-    if auth_header
-        token = auth_header.split(' ')[1]
-        begin
-            JWT.decode(token, 'my_secret', true, algorithm: 'HS256')
-        rescue JWT::DecodeError
-            []
-        end
+    return unless auth_header
+
+    token = auth_header.split(' ')[1]
+    # header: {'Authorization': 'Bearer <token>'}
+    begin
+      JWT.decode(token, 's3cr3t', true, algorithm: 'HS256')
+    rescue JWT::DecodeError
+      nil
     end
   end
 
@@ -28,10 +30,10 @@ class ApplicationController < ActionController::API
   end
 
   def logged_in?
-    !!logged_in_user
+    !logged_in_user.nil?
   end
 
-  def require_login
-    render json: {message: 'Please Login'}, status: :unauthorized unless logged_in?
+  def authorized
+    render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
   end
 end
