@@ -1,6 +1,12 @@
 class FavsController < ApplicationController
-  def fav_create
-    puts "User is #{logged_in_user.username}"
+  def index
+    @user_shoes = logged_in_user.favourite_shoes
+    render json: {
+      user_shoes: @user_shoes
+    }
+  end
+
+  def create
     fav_shoe = Fav.find_by(user_id: logged_in_user.id, shoe_id: params[:shoe_id])
 
     if fav_shoe
@@ -12,12 +18,5 @@ class FavsController < ApplicationController
       # rubocop:enable Lint/UselessAssignment
       render json: { status: 'Favourite Created succesfully' }
     end
-  end
-
-  def fav_shoes
-    @user_shoes = logged_in_user.favourite_shoes
-    render json: {
-      user_shoes: @user_shoes
-    }
   end
 end
