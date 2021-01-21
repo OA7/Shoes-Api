@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       token = encode_token(payload)
       render json: { user: user, jwt: token, logged_in: true }
     else
-      render json: { errors: "Please check credetials or change Username" }
+      render json: { errors: 'Please check credetials or change Username' }
     end
   end
 
