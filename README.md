@@ -14,13 +14,13 @@ There are a couple of endpoints exposed by this api and can be accessed online u
 
 - `/users` => Creates a new user on signup.
 - `/login` => Signs in an existing user.
-- `/favourites/new/:shoe_id` => Either creates or destroys the association `Favorites` between the logged_in user and a particular shoe.
+- `/favs` => Either creates or destroys the association `Favorites` between the logged_in user and a particular shoe whose id you pass in the request.
 
 ### GET Endpoints
 
 - `/shoes` => Returns JSON of all shoes in the database.
 - `/shoes/:id` => Returns JSON of a particular shoe in the database.
-- `/favourites/all` => Returns JSON of all shoes associated to the logged_in user through the `Favorite` table in the database.
+- `/favs` => Returns JSON of all shoes associated to the logged_in user through the `Favorite` table in the database.
 
 ## Built with
 
