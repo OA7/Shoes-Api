@@ -8,15 +8,11 @@ class FavsController < ApplicationController
 
   def create
     fav_shoe = Fav.find_by(user_id: logged_in_user.id, shoe_id: params[:shoe_id])
-
     if fav_shoe
-      fav_shoe.destroy
-      render json: { status: 'Favs Destroyed succesfully' }
+      render json: { error: 'Shoe already in favorites' }, status: :unprocessable_entity
     else
-      # rubocop:disable  Lint/UselessAssignment
-      fav_shoe = Fav.create!(user_id: logged_in_user.id, shoe_id: params[:shoe_id])
-      # rubocop:enable Lint/UselessAssignment
-      render json: { status: 'Favourite Created succesfully' }
+      Fav.create!(user_id: logged_in_user.id, shoe_id: params[:shoe_id])
+      render json: { message: 'Favourite Created succesfully' }, status: :created
     end
   end
 end
